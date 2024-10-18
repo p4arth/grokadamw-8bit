@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
-from grokadamw import GrokAdamw8bit
+from low_bit_optim.grokadamw import GrokAdamw8bit
 
 # Set random seed for reproducibility
 torch.manual_seed(42)
