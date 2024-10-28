@@ -22,7 +22,8 @@ class _GrokAdamWBase(Optimizer):
                  lamb: float = 2.0,
                  gamma: float = 0.1, 
                  grokking_signal_fns: Optional[list[Callable[[], float]]] = None,
-                 grokking_signal_decay_rate: float = 0.1, gradient_clipping: float = 1.0):
+                 grokking_signal_decay_rate: float = 0.1, 
+                 gradient_clipping: float = 1.0):
         if not 0.0 <= lr:
             raise ValueError(f"Invalid learning rate: {lr}")
         if not 0.0 <= eps:
@@ -232,11 +233,29 @@ class GrokAdamw8bit(_GrokAdamWBase):
         betas=(0.9, 0.999),
         eps=1e-8,
         weight_decay=0,
+        alpha_init=0.98,
+        lamb=2.0,
+        gamma=0.1,
         *,
         block_size=256,
         grokking_signal_fns = None,
+        grokking_signal_decay_rate = 0.1,
+        gradient_clipping=1.0
     ) -> None:
-        super().__init__(params, lr, betas, eps, weight_decay, block_size=block_size, grokking_signal_fns=grokking_signal_fns)
+        super().__init__(
+            params, 
+            lr, 
+            betas, 
+            eps, 
+            weight_decay, 
+            block_size,
+            alpha_init,
+            lamb,
+            gamma,
+            grokking_signal_fns,
+            grokking_signal_decay_rate,
+            gradient_clipping,
+        )
 
     @staticmethod
     def _subclass_zeros(p: Tensor, signed: bool, block_size: int):
